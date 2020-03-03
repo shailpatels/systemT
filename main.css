@@ -1,0 +1,11 @@
+#tape{
+    display : grid;
+    width : 100%;
+    grid-auto-columns: 100px;
+    grid-auto-flow : column;
+}
+
+.cell{
+    height : 50px;
+    text-align : center;
+}
