@@ -1,10 +1,13 @@
 class Tape{
     constructor(size_){
-        this.size = size_;
         this.index = 0;
+        this.shift = 0;
 
         this.left = new Array( size_ );
         this.right = new Array( size_ );
+        this.zero = "";
+
+        this.size = this.left.length + this.right.length + 1;
     }
 
 
@@ -23,19 +26,23 @@ class Tape{
     }
 
     write( string ){
-        if ( this.index >= 0 ){
-            //right [0, INF)
+        if ( this.index > 0 ){
+            //right (0, INF)
             this.right[ this.index ] = string;
-        }else{
+        }else if( this.index < 0){
             //left (INF, 0)
             this.left [ Math.abs(this.index) ] = string;
+        }else{
+            this.zero = string;
         }
     }
 
     read( string ){
-        if ( this.index >= 0 )
+        if ( this.index > 0 )
             return this.right[ this.index ];
-        
-        return this.left[ Math.abs(this.index) ]; 
+        else if (this.index < 0 ) 
+            return this.left[ Math.abs(this.index) ]; 
+        else
+            return this.zero;
     }
 }

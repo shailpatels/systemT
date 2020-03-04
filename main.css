@@ -1,11 +1,16 @@
 #tape{
     display : grid;
-    width : 100%;
-    grid-auto-columns: 100px;
+    width : 950px;   /* 19 * 50 */
+    grid-auto-columns: 50px;
     grid-auto-flow : column;
+
+    border-right : 2px solid black;
 }
 
 .cell{
     height : 50px;
     text-align : center;
+    border-top : 2px solid black;
+    border-bottom: 2px solid black;
+    border-left: 2px solid black;
 }
