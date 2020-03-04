@@ -1,5 +1,5 @@
 var main_input, html_tape,
-    tape, tapes = [],
+    tapes = [],
     init_size = 19;
 
 window.onload = function init(){
@@ -15,36 +15,55 @@ window.onload = function init(){
         html_tape.appendChild ( tmp );
     }
 
-    tape = new Tape( (init_size-1) / 2  ); 
+    let tape = new Tape( init_size ); 
     tapes.push( tape );
 
-    getRelativeCell( tape )
 }
 
 
-function getRelativeCell( tape ){
-    //box 10 is the middle box
-    let tgt = 10 //index 0
-
-
-    tgt --; //computers start at 0
-    return document.getElementById("cell_" + tgt);
-//    document.getElementById( "cell_" + tgt ).style.backgroundColor = "green";
+function step(){
+    pushInput(user_input);
 }
 
-function render(tape){
-    for( var i = 0; i < tape.size; i++){
-        
+function getRelativeCell(t){
+    return document.getElementById(t.index);
+}
+
+
+function stepHelper(first, second, t){
+    let cell = getRelativeCell(tape);
+    
+    if ( first == "wr" ){
+        t.write( second );
+        updateCurrentCell(t);
+    }
+
+    if ( first == "mov" && second == "l" ){
+        t.moveLeft();
+        updateTape(t);
+    }
+    
+    if ( first == "mov" && second == "r" ){
+        t.moveRight();
+        updateTape(t);
     }
 }
 
-function step(first, second, tape){
-    console.log( first, second );
-    let cell = getRelativeCell(tape);
-    
-    if ( first == "wr" )
-        tape.write( second );
+function pushInput(words){
+    if (words.length == 0 )
+        return;
+
+    let first = words[0];
+    let second = "";
+    if ( words.length > 1){
+        second = words[1];
+        words.shift();
+    } 
+    words.shift();
+    stepHelper(first,second,tapes[0]);
 }
+
+var user_input = [];
 
 function readInput(){
     let input = main_input.value;
@@ -57,19 +76,9 @@ function readInput(){
         return x !== "";
     });
     
-    if (words.length == 0)
-        return;
-
-    let first = words[0];
-    let second = "";
-    if ( words.length > 1){
-        second = words[1];
-        words.shift();
-    } 
-    words.shift();
-
-    step(first,second,tape);
+    words.forEach( x => user_input.push(x));    
 }
+
 
 function main(){
 

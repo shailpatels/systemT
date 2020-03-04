@@ -1,48 +1,34 @@
 class Tape{
     constructor(size_){
+        this.size = size_;
+        this.half_size = (size_ - 1)/2;
         this.index = 0;
-        this.shift = 0;
-
-        this.left = new Array( size_ );
-        this.right = new Array( size_ );
-        this.zero = "";
-
-        this.size = this.left.length + this.right.length + 1;
+        this.mem = new Map();
     }
 
 
     moveLeft(){
-        if ( Math.abs(this.index) + 1 >= this.size )
-            return;
-
-        this.index --; 
-    }
-
-    moveRight(){
-        if ( this.index + 1 >= this.size )
-            return;
-
         this.index ++;
     }
 
-    write( string ){
-        if ( this.index > 0 ){
-            //right (0, INF)
-            this.right[ this.index ] = string;
-        }else if( this.index < 0){
-            //left (INF, 0)
-            this.left [ Math.abs(this.index) ] = string;
-        }else{
-            this.zero = string;
-        }
+    moveRight(){
+        this.index --;
     }
 
-    read( string ){
-        if ( this.index > 0 )
-            return this.right[ this.index ];
-        else if (this.index < 0 ) 
-            return this.left[ Math.abs(this.index) ]; 
-        else
-            return this.zero;
+    write( string ){
+        this.mem.set( this.index, string);
     }
+
+    read( ){
+        return this.readAt( this.index ); 
+    }
+
+    readAt( index ){
+        let tmp = this.mem.get( index );
+        if ( typeof tmp === "undefined" )
+            return "";
+
+        return tmp;
+    }
+
 }
