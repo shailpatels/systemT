@@ -5,7 +5,8 @@ var main_input, html_tape,
 window.onload = function init(){
     main_input = document.getElementById("main_input"); 
     main_input.focus(); 
-    
+
+
     html_tape = document.getElementById("tape");
     
     for ( var i = 0; i < init_size; ++i){
@@ -53,7 +54,7 @@ function stepHelper(t){
     
     if ( first == "wrt" ){
         t.write( second );
-        updateCurrentCell(t);
+        updateTape(t);
     }
 
     if ( first == "mov" && second == "l" ){
