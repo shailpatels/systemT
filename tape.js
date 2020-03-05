@@ -6,6 +6,19 @@ class Tape{
         this.mem = new Map();
     }
 
+    serialize(){
+    function replacer (key,value){
+        if (key == "mem"){
+            return { dataType : 'Map',
+                     value : Array.from(this.mem.entries())
+            };
+        }
+
+        return value;
+    }
+    
+    return JSON.stringify(this, replacer);
+    }
 
     moveLeft(){
         this.index ++;

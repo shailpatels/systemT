@@ -18,11 +18,15 @@ window.onload = function init(){
     let tape = new Tape( init_size ); 
     tapes.push( tape );
 
+    main_input.onchange = function(){
+        if ( typeof IN !== "undefined")
+            IN.reset();
+    }
+   
 }
 
-
 function step(){
-    pushInput(user_input);
+    pushInput();
 }
 
 function getRelativeCell(t){
@@ -30,10 +34,24 @@ function getRelativeCell(t){
 }
 
 
-function stepHelper(first, second, t){
-    let cell = getRelativeCell(tape);
+function stepHelper(t){
+    let cell = getRelativeCell(t);
+
+    let ln = IN.getCurrentLine();
+    let first, second = "";
+    if ( ln.length == 0 )
+        first = second = "";
+
+    if ( ln.length == 1 ){
+        first = ln[0];  
+    }else{
+        first = ln[0];
+        second = ln[1];
+    }
+
+    console.log(first, second);
     
-    if ( first == "wr" ){
+    if ( first == "wrt" ){
         t.write( second );
         updateCurrentCell(t);
     }
@@ -47,23 +65,35 @@ function stepHelper(first, second, t){
         t.moveRight();
         updateTape(t);
     }
+
+    if ( first == "red" && ln.length <= 2 ){
+        //NOP
+    }
+
+    // rd <PRN> <TGT>
+    if ( first == "red" && ln[2] == "jmp" && ln.length >= 4){
+        let match = second;
+        
+        let tgt = parseInt( ln[3] ); 
+        if ( Number.isNaN( tgt ) )
+            tgt = Math.floor( Math.random() * (IN.length - 1) );
+
+        console.log(match, tgt);
+        IN.current_line = (tgt);
+    }else{
+        IN.current_line ++; 
+    }
 }
 
-function pushInput(words){
-    if (words.length == 0 )
+function pushInput(){
+    if (IN.length == 0 )
         return;
+    
 
-    let first = words[0];
-    let second = "";
-    if ( words.length > 1){
-        second = words[1];
-        words.shift();
-    } 
-    words.shift();
-    stepHelper(first,second,tapes[0]);
+    stepHelper( tapes[0] );
 }
 
-var user_input = [];
+var IN;
 
 function readInput(){
     let input = main_input.value;
@@ -71,12 +101,12 @@ function readInput(){
     input = input.trim();
     input = input.toLowerCase();
 
-    words = input.split("\n").join(" ").split(" ");
+    words = input.split("\n");
     words = words.filter( function(x){
         return x !== "";
     });
     
-    words.forEach( x => user_input.push(x));    
+    IN = new Input( words );
 }
 
 
