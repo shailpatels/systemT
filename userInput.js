@@ -15,7 +15,7 @@ class Input{
             console.log( i, this.lines.get( i ) );
     }
 
-    length() { return this.lines.length; }
+    length() { return this.lines.size; }
 
     getCurrentLine() {
         let test = this.current_line;
@@ -69,7 +69,7 @@ function load(){
 
     let tmp = tgt["tape_state"]; 
     for ( t of tmp ){
-        console.log(JSON.parse(t));
+        //console.log(JSON.parse(t));
         tapes.push( rebuildTape( JSON.parse(t) ) );
     } 
     

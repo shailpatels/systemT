@@ -1,6 +1,7 @@
 var main_input, html_tape,
     tapes = [],
-    init_size = 19;
+    init_size = 19,
+    levels;
 
 window.onload = function init(){
     main_input = document.getElementById("main_input"); 
@@ -23,7 +24,8 @@ window.onload = function init(){
         if ( typeof IN !== "undefined")
             IN.reset();
     }
-   
+    
+    levels = new LoadLevels(0); 
 }
 
 function step(){
@@ -50,6 +52,8 @@ function stepHelper(t){
         second = ln[1];
     }
 
+    first = first.toLowerCase().trim();
+    second = second.toLowerCase().trim();
     console.log(first, second);
     
     if ( first == "wrt" ){
@@ -70,20 +74,33 @@ function stepHelper(t){
     if ( first == "red" && ln.length <= 2 ){
         //NOP
     }
-
-    // rd <PRN> <TGT>
-    if ( first == "red" && ln[2] == "jmp" && ln.length >= 4){
-        let match = second;
         
-        let tgt = parseInt( ln[3] ); 
-        if ( Number.isNaN( tgt ) )
-            tgt = Math.floor( Math.random() * (IN.length - 1) );
+    // RED <PTN> MOV [L|R]
+    // RED <PTN> WRT <VAL>
+    
+    let match = ( t.read() === second );
+    if ( first == "red" && ln.length >= 2 && match ){
+        if ( ln[2] == "mov" && ln.length > 3){
 
-        console.log(match, tgt);
-        IN.current_line = (tgt);
-    }else{
-        IN.current_line ++; 
-    }
+            if ( ln[3] == "l" ){
+                t.moveLeft();
+                updateTape(t);
+            }else if ( ln[3] == "r" ){
+                t.moveRight();
+                updateTape(t);
+            }            
+
+        }else if ( ln[2] == "wrt" ){
+           let third = ln.length > 3 ? ln[3] : "";
+           t.write( third );
+           updateTape( t );  
+        }
+    } 
+    
+    IN.current_line ++; 
+    
+    if ( IN.current_line === IN.length() )
+        IN.current_line = 0;
 }
 
 function pushInput(){

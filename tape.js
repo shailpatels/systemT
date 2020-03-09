@@ -4,6 +4,9 @@ class Tape{
         this.half_size = (size_ - 1)/2;
         this.index = 0;
         this.mem = new Map();
+
+        this.max = 0;
+        this.min = 0;
     }
 
     serialize(){
@@ -22,10 +25,16 @@ class Tape{
 
     moveLeft(){
         this.index ++;
+
+        if ( this.index > this.max )
+            this.max ++;
     }
 
     moveRight(){
         this.index --;
+    
+        if ( this.index < this.min )
+            this.min --;
     }
 
     write( string ){
@@ -42,6 +51,12 @@ class Tape{
             return "";
 
         return tmp;
+    }
+    
+    setAll( val ){
+        for ( var i = -100; i < 100; i++ )
+            this.mem.set( i, val );
+    
     }
 
 }
