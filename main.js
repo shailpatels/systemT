@@ -25,7 +25,7 @@ window.onload = function init(){
             IN.reset();
     }
     
-    levels = new LoadLevels(0); 
+    levels = new LoadLevels(); 
 }
 
 function step(){
@@ -59,6 +59,12 @@ function stepHelper(t){
     if ( first == "wrt" ){
         t.write( second );
         updateTape(t);
+        return;
+    }
+
+    if ( first == "stp" ){
+        t.isAccept()
+        return;
     }
 
     if ( first == "mov" && second == "l" ){
@@ -104,6 +110,9 @@ function stepHelper(t){
 }
 
 function pushInput(){
+    if (typeof IN === "undefined")
+        readInput();
+
     if (IN.length == 0 )
         return;
     

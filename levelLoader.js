@@ -1,22 +1,35 @@
 
-var levels = {
-    0 : { "string" : "0", "type" : "all", "win" : "1" }
+var level_data = {
+    0 : { "string" : "0", "type" : "all", "win" : "1" },
+    1 : { "string" : "1", "type" : "all", "win" : "0" }
 };
 
+var level_count = 2;
+
 class LoadLevels{
-    constructor(lev){
-        this.current_level = lev;
-        this.loadLev(lev);
+    constructor(){
+        this.drawLevels();
+        this.current_level = 0;
+    }
+
+    drawLevels(){
+        let tgt = document.getElementById("levels");
+        for(var i = 0; i < level_count; i++){
+            let btn = document.createElement( "button" );
+            btn.innerHTML = "Level " + String(i)
+            btn.setAttribute("onclick", "levels.loadLev(" + i + ");");
+            tgt.appendChild( btn );
+        }
     }
 
 
     loadLev(lev){
-        let tgt = levels[lev];
+        console.trace();
+        this.current_level = lev;
+        let tgt = level_data[lev];
     
-        console.log(tgt["string"]);
         if ( tgt["type"]  === "all" ){
             tapes[0].setAll( tgt["string"] ); 
-            console.log( tapes[0].readAt(-9));
             updateTape( tapes[0] );
         }
     }
