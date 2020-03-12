@@ -34,9 +34,11 @@ class LoadLevels{
         }
     }
 
+
     translate( str ){
         return str;
     }
+
 
     isAccept(){
         let tgt = this.translate(levels[this.current_level]["win"]);

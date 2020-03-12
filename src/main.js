@@ -3,6 +3,7 @@ var main_input, html_tape,
     init_size = 19,
     levels;
 
+
 window.onload = function init(){
     main_input = document.getElementById("main_input"); 
     main_input.focus(); 
@@ -28,9 +29,11 @@ window.onload = function init(){
     levels = new LoadLevels(); 
 }
 
+
 function step(){
     pushInput();
 }
+
 
 function getRelativeCell(t){
     return document.getElementById(t.index);
@@ -83,7 +86,7 @@ function stepHelper(t){
         
     // RED <PTN> MOV [L|R]
     // RED <PTN> WRT <VAL>
-    
+    // RED <PTN> STP
     let match = ( t.read() === second );
     if ( first == "red" && ln.length >= 2 && match ){
         if ( ln[2] == "mov" && ln.length > 3){
@@ -95,19 +98,24 @@ function stepHelper(t){
                 t.moveRight();
                 updateTape(t);
             }            
-
+            
         }else if ( ln[2] == "wrt" ){
-           let third = ln.length > 3 ? ln[3] : "";
-           t.write( third );
-           updateTape( t );  
+            let third = ln.length > 3 ? ln[3] : "";
+            t.write( third );
+            updateTape( t );  
+        }else{
+            let third = ln.length > 3 ? ln[3] : "";
+            t.isAccept();
         }
     } 
     
     IN.current_line ++; 
     
+    //wrap around to line 0
     if ( IN.current_line === IN.length() )
         IN.current_line = 0;
 }
+
 
 function pushInput(){
     if (typeof IN === "undefined")
@@ -120,7 +128,9 @@ function pushInput(){
     stepHelper( tapes[0] );
 }
 
+
 var IN;
+
 
 function readInput(){
     let input = main_input.value;
