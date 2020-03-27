@@ -1,6 +1,6 @@
 
 var level_data = {
-    0 : { "string" : "0", "type" : "all", "win" : "1" },
+    0 : { "string" : "", "type" : "all", "win" : "Hello" },
     1 : { "string" : "1", "type" : "all", "win" : "0" },
     2 : { "string" : "1*01*", "type" : "pattern", "win" : "1*1*", "background" : "0" }
 };
@@ -57,10 +57,14 @@ class LoadLevels{
 
     isAccept(){
         let tgt = this.win_string;
+        let player_str = "";
         
-        console.log( tapes[0].min, tapes[0].max );
         for ( var i = tapes[0].min; i <= tapes[0].max; i++ )
-            console.log( tapes.mem.get( i ) );         
+            player_str += tapes[0].readAt( i );    
+
+        player_str = player_str.trim()
+        console.log( player_str, this.win_string );
+        return player_str == this.win_string;
     }
 }
 

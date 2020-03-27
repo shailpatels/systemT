@@ -58,8 +58,7 @@ function stepHelper(t){
     }
 
     first = first.toLowerCase().trim();
-    second = second.toLowerCase().trim();
-    console.log(first, second);
+    second = second.trim();
     
     if ( first == "wrt" ){
         t.write( second );
@@ -67,16 +66,20 @@ function stepHelper(t){
     }
 
     if ( first == "stp" ){
-        levels.isAccept()
+        if ( levels.isAccept() ){
+            showWinState();
+        }else{
+            alert("TM not in Accept State");
+        }
         return;
     }
 
-    if ( first == "mov" && second == "l" ){
+    if ( first == "mov" && second.toLowerCase() == "l" ){
         t.moveLeft();
         updateTape(t);
     }
     
-    if ( first == "mov" && second == "r" ){
+    if ( first == "mov" && second.toLowerCase() == "r" ){
         t.moveRight();
         updateTape(t);
     }
@@ -90,6 +93,7 @@ function stepHelper(t){
     // RED <PTN> STP
     let match = ( t.read() === second );
     if ( first == "red" && ln.length >= 2 && match ){
+        ln[2] = ln[2].toLowerCase();
         if ( ln[2] == "mov" && ln.length > 3){
 
             if ( ln[3] == "l" ){
@@ -125,7 +129,6 @@ function pushInput(){
     if (IN.length == 0 )
         return;
     
-
     stepHelper( tapes[0] );
 }
 
@@ -137,7 +140,6 @@ function readInput(){
     let input = main_input.value;
     
     input = input.trim();
-    input = input.toLowerCase();
 
     words = input.split("\n");
     words = words.filter( function(x){
@@ -145,6 +147,8 @@ function readInput(){
     });
     
     IN = new Input( words );
+    levels.loadLev( levels.current_level );
+    
 }
 
 
@@ -156,4 +160,6 @@ function getRandom(max){
     return Math.floor(Math.random() * Math.floor(max));
 }
 
-
+function showWinState(){
+    alert("You win!");
+}
