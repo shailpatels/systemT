@@ -59,4 +59,8 @@ class Tape{
     
     }
 
+    setAt( index, string ){
+        for ( var i = 0; i < string.length; i++ )
+            this.mem.set( index + i, string[i] );
+    } 
 }
