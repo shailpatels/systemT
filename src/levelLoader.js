@@ -24,7 +24,7 @@ class LoadLevels{
 
 
     loadLev(lev){
-        console.trace();
+        //        console.trace();
         this.current_level = lev;
         let tgt = level_data[lev];
     
@@ -41,8 +41,10 @@ class LoadLevels{
 
 
     isAccept(){
+        console.log( levels );
         let tgt = this.translate(levels[this.current_level]["win"]);
         
+        console.log( tapes[0].min, tapes[0].max );
         for ( var i = tapes[0].min; i <= tapes[0].max; i++ )
             console.log( tapes.mem.get( i ) );         
     }

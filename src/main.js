@@ -8,6 +8,8 @@ window.onload = function init(){
     main_input = document.getElementById("main_input"); 
     main_input.focus(); 
 
+//    main_input.onkeyup = function () { readInput(); }
+
 
     html_tape = document.getElementById("tape");
     
@@ -62,11 +64,10 @@ function stepHelper(t){
     if ( first == "wrt" ){
         t.write( second );
         updateTape(t);
-        return;
     }
 
     if ( first == "stp" ){
-        t.isAccept()
+        levels.isAccept()
         return;
     }
 

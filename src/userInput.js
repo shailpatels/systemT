@@ -3,7 +3,7 @@ class Input{
     constructor(data){
         this.lines = new Map();
         this.current_line = 0;
-        this.raw_input = document.getElementById("main_input").value;
+        this.raw_input = main_input.value;
         
         for ( var i = 0; i < data.length; i++ )
             this.lines.set( i, data[i].split(" ") );
