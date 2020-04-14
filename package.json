@@ -1,0 +1,26 @@
+{
+  "name": "systemt",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "man": "man"
+  },
+  "dependencies": {
+    "jest": "^25.3.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shailpatels/systemT.git"
+  },
+  "author": "Shail Patel",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/shailpatels/systemT/issues"
+  },
+  "homepage": "https://github.com/shailpatels/systemT#readme"
+}
