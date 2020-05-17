@@ -8,6 +8,7 @@ var level_data = {
 
 var level_count = Object.keys(level_data).length;
 
+
 class LoadLevels{
     constructor(){
         this.drawLevels();

@@ -6,14 +6,11 @@ var main_input, html_tape,
 
 window.onload = function init(){
     main_input = document.getElementById("main_input"); 
-    main_input.focus(); 
-
-//    main_input.onkeyup = function () { readInput(); }
-
-
     html_tape = document.getElementById("tape");
+
+    main_input.focus(); 
     
-    for ( var i = 0; i < init_size; ++i){
+    for ( var i = 0; i < init_size; ++i ){
         let tmp = document.createElement("div");
         tmp.className= "cell";
         tmp.id = "cell_" + i;
@@ -152,13 +149,10 @@ function readInput(){
 }
 
 
-function main(){
-
-}
-
 function getRandom(max){
     return Math.floor(Math.random() * Math.floor(max));
 }
+
 
 function showWinState(){
     alert("You win!");

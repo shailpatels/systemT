@@ -6,12 +6,12 @@
   "directories": {
     "man": "man"
   },
-  "dependencies": {
-    "jest": "^25.3.0"
+  "dependencies": {},
+  "devDependencies": {
+    "jest": "^25.5.4"
   },
-  "devDependencies": {},
   "scripts": {
-    "test": "npm test"
+    "test": "jest"
   },
   "repository": {
     "type": "git",

@@ -10,10 +10,12 @@ class Input{
 
     }
 
+
     printData(){
         for ( var i = 0; i < this.lines.length; i++)
             console.log( i, this.lines.get( i ) );
     }
+
 
     length() { return this.lines.size; }
 
@@ -24,6 +26,7 @@ class Input{
 
         return this.lines.get( test );
     }
+
 
     reset(){
         this.lines = new Map();

@@ -9,19 +9,22 @@ class Tape{
         this.min = 0;
     }
 
-    serialize(){
-    function replacer (key,value){
-        if (key == "mem"){
-            return { dataType : 'Map',
-                     value : Array.from(this.mem.entries())
-            };
-        }
 
-        return value;
-    }
+    serialize(){
+        function replacer (key,value){
+            if (key == "mem"){
+                return { 
+                    dataType : 'Map',
+                    value : Array.from(this.mem.entries())
+                };
+            }
+
+            return value;
+        }
     
-    return JSON.stringify(this, replacer);
+        return JSON.stringify(this, replacer);
     }
+
 
     moveLeft(){
         this.index ++;
@@ -30,6 +33,7 @@ class Tape{
             this.max ++;
     }
 
+
     moveRight(){
         this.index --;
     
@@ -37,13 +41,16 @@ class Tape{
             this.min --;
     }
 
+
     write( string ){
         this.mem.set( this.index, string);
     }
 
+
     read( ){
         return this.readAt( this.index ); 
     }
+
 
     readAt( index ){
         let tmp = this.mem.get( index );
@@ -53,14 +60,20 @@ class Tape{
         return tmp;
     }
     
+
     setAll( val ){
         for ( var i = -100; i < 100; i++ )
             this.mem.set( i, val );
     
     }
 
+
     setAt( index, string ){
         for ( var i = 0; i < string.length; i++ )
             this.mem.set( index + i, string[i] );
     } 
 }
+
+if (typeof module !== 'undefined' )
+    module.exports = {Tape};
+
