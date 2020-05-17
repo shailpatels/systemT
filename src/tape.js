@@ -1,4 +1,10 @@
 class Tape{
+
+    /**
+    * @param {Number} size_ the size of the tape to visually display, 
+    *   this is number of blocks to render, the tape is technically unbounded
+    *   cannot be an even number
+    */
     constructor(size_){
         this.size = size_;
         this.half_size = (size_ - 1)/2;

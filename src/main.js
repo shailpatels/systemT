@@ -4,7 +4,7 @@ var main_input, html_tape,
     levels;
 
 
-window.onload = function init(){
+window.onload = function(){
     main_input = document.getElementById("main_input"); 
     html_tape = document.getElementById("tape");
 
@@ -13,7 +13,12 @@ window.onload = function init(){
     for ( var i = 0; i < init_size; ++i ){
         let tmp = document.createElement("div");
         tmp.className= "cell";
-        tmp.id = "cell_" + i;
+
+        let p = document.createElement("p");
+        p.id = "cell_" + i;
+        p.className = "itm-cell";
+        tmp.appendChild(p);
+
         html_tape.appendChild ( tmp );
     }
 
@@ -21,16 +26,10 @@ window.onload = function init(){
     tapes.push( tape );
 
     main_input.onchange = function(){
-        if ( typeof IN !== "undefined")
-            IN.reset();
+        InputFactory.clear();
     }
     
     levels = new LoadLevels(); 
-}
-
-
-function step(){
-    pushInput();
 }
 
 
@@ -38,12 +37,25 @@ function getRelativeCell(t){
     return document.getElementById(t.index);
 }
 
+function updateLine(n){
+    document.getElementById("line").innerHTML = n.toString();
+}
 
-function stepHelper(t){
+/**
+* Parses the current line we're currently on
+* @param {Input} IN user input object
+* @param {Tape} t tape to operate on
+*/
+function parseNext(IN, t){
     let cell = getRelativeCell(t);
-
     let ln = IN.getCurrentLine();
     let first, second = "";
+    updateLine(IN.current_line);
+
+    let prep = function(x){
+        return x.trim().toLowerCase();
+    }
+
     if ( ln.length == 0 )
         first = second = "";
 
@@ -54,8 +66,31 @@ function stepHelper(t){
         second = ln[1];
     }
 
-    first = first.toLowerCase().trim();
+    first = prep(first);
     second = second.trim();
+    console.log(first, second, IN.current_line);
+
+    let is_label = false;
+    if (first.slice(-1) === ":"){
+        is_label = true;
+        first = first.slice(0,-1);
+    }
+
+    if ( second === ":" ){
+        is_label = true;
+    }
+
+    if ( is_label ){
+        IN.addLabel(first, IN.current_line);
+    }
+
+
+    if ( first === "jmp"){
+        IN.current_line = IN.getLabel(second);
+        updateLine(IN.current_line);
+        return;
+    }
+
     
     if ( first == "wrt" ){
         t.write( second );
@@ -71,12 +106,12 @@ function stepHelper(t){
         return;
     }
 
-    if ( first == "mov" && second.toLowerCase() == "l" ){
+    if ( first == "mov" && prep(second) == "l" ){
         t.moveLeft();
         updateTape(t);
     }
     
-    if ( first == "mov" && second.toLowerCase() == "r" ){
+    if ( first == "mov" && prep(second) == "r" ){
         t.moveRight();
         updateTape(t);
     }
@@ -90,62 +125,52 @@ function stepHelper(t){
     // RED <PTN> STP
     let match = ( t.read() === second );
     if ( first == "red" && ln.length >= 2 && match ){
-        ln[2] = ln[2].toLowerCase();
-        if ( ln[2] == "mov" && ln.length > 3){
+        if ( prep(ln[2]) == "mov" && ln.length > 3){
 
-            if ( ln[3] == "l" ){
+            if ( prep(ln[3]) == "l" ){
                 t.moveLeft();
                 updateTape(t);
-            }else if ( ln[3] == "r" ){
+            }else if ( prep(ln[3]) == "r" ){
                 t.moveRight();
                 updateTape(t);
             }            
             
-        }else if ( ln[2] == "wrt" ){
+        }else if ( prep(ln[2]) == "wrt" ){
             let third = ln.length > 3 ? ln[3] : "";
             t.write( third );
             updateTape( t );  
         }else{
             let third = ln.length > 3 ? ln[3] : "";
-            t.isAccept();
+            levels.isAccept();
         }
     } 
-    
+
+
     IN.current_line ++; 
-    
+
     //wrap around to line 0
     if ( IN.current_line === IN.length() )
         IN.current_line = 0;
+ 
 }
 
 
-function pushInput(){
-    if (typeof IN === "undefined")
-        readInput();
-
-    if (IN.length == 0 )
-        return;
-    
-    stepHelper( tapes[0] );
+function step(){
+    let IN = InputFactory.getInstance();
+    parseNext(IN, tapes[0] );
 }
 
 
-var IN;
+/**
+* Read the data container in the main text field and update
+* the user input object
+*/
+function submit(){
+    let words = main_input.value;
+    InputFactory.clear();
+    InputFactory.getInstance(words);
 
-
-function readInput(){
-    let input = main_input.value;
-    
-    input = input.trim();
-
-    words = input.split("\n");
-    words = words.filter( function(x){
-        return x !== "";
-    });
-    
-    IN = new Input( words );
     levels.loadLev( levels.current_level );
-    
 }
 
 
@@ -156,4 +181,15 @@ function getRandom(max){
 
 function showWinState(){
     alert("You win!");
+}
+
+
+/** setup for testing */
+if (typeof module !== "undefined"){
+    module.exports = {
+        parseNext, 
+        getRelativeCell,
+    }
+
+    updateTape = function(t){}
 }

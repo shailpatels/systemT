@@ -2,7 +2,8 @@
 var level_data = {
     0 : { "string" : "", "type" : "all", "win" : "Hello" },
     1 : { "string" : "1", "type" : "all", "win" : "0" },
-    2 : { "string" : "1*01*", "type" : "pattern", "win" : "1*1*", "background" : "0" }
+    2 : { "string" : "11101", "type" : "pattern", "win" : "111", "background" : "0"},
+    3 : { "string" : "1*01*", "type" : "pattern", "win" : "1*1*", "background" : "0" }
 };
 
 
@@ -19,6 +20,10 @@ class LoadLevels{
 
     drawLevels(){
         let tgt = document.getElementById("levels");
+
+        if ( !tgt )
+            return;
+
         for(var i = 0; i < level_count; i++){
             let btn = document.createElement( "button" );
             btn.innerHTML = "Level " + String(i)
@@ -32,7 +37,7 @@ class LoadLevels{
         this.current_level = lev;
         this.rand_nums = [];
         let tgt = level_data[lev];
-    
+        tapes[0] = new Tape(tapes[0].size);
         if ( tgt["type"]  === "all" ){
             tapes[0].setAll( tgt["string"] ); 
             updateTape( tapes[0] );
@@ -99,4 +104,7 @@ function generateRandomLevel(baseString, winString){
 
     return [ fin, win, rands ];
 }
+
+if( typeof module !== "undefined")
+    module.exports = {LoadLevels};
 

@@ -17,14 +17,19 @@
     <div id = "tape">
     </div>
 
-    <p style="font-size: 30px;">&#9650;</p>
+    <p id="cursor" style="font-size: 30px;">&#9650;</p>
 
-    <div style="display: block">
-        <textarea id="main_input" cols="15" rows="10"></textarea>
+    <div id="overlay" style="display: block">
+        <textarea spellcheck = false
+                  class="scanlines" 
+                  id="main_input" 
+                  cols="15" 
+                  rows="10">
+        </textarea>
     </div>
 
     <br>
-    <button onclick = "readInput()">Submit</button>
+    <button onclick = "submit()">Submit</button>
     <button onclick = "step()">Step</button>
     <button onclick = "run()">Run</button>
     <br>
@@ -34,6 +39,8 @@
     <div id="levels">
 
     </div>
+
+    <p id="line"></p>
 </div>
 </body>
 

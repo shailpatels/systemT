@@ -1,25 +1,76 @@
+:root {
+    --background: black;
+    --foreground: white;
+}
+
+
 #tape{
     display : grid;
     width : 950px;   /* 19 * 50 */
     grid-auto-columns: 50px;
     grid-auto-flow : column;
 
-    border-right : 2px solid black;
+    /*border-right : 2px solid black;*/
     margin-left : auto;
     margin-right: auto;
+
+    border-color: var(--foreground);
+    color: var(--foreground);
+
+    justify-content: center;
+    align-items: center; 
+
+    background: linear-gradient(
+        to bottom,
+        rgba(20,20,20,90),
+        black
+    );
+    background-size: 100% .3rem; 
 }
+
+
+#cursor{
+    margin-top: 0px;
+}
+
 
 #main_input{
     resize : none;
-    overflow: hidden;
+    overflow-x: hidden;
+    font: 1rem Inconsolata, monospace;
+    text-shadow: 0 0 5px #C8C8C8;
+    color: var(--foreground);
+    background-color: var(--background);
+
+    background: linear-gradient(
+        to bottom,
+        rgba(20,20,20,90),
+        black
+    );
+    background-size: 100% .3rem;
 }
+
+
+#main_input::selection {
+    background: white;
+    text-shadow: none;
+}
+
 
 .cell{
     height : 50px;
-    text-align : center;
-    border-top : 2px solid black;
-    border-bottom: 2px solid black;
-    border-left: 2px solid black;
+
+    border-color: var(--foreground);
+    font: 1rem Inconsolata, monospace;
+    overflow: hidden;
+    text-shadow: 0 0 5px #C8C8C8;
+
+    border-style: dashed dashed dashed dashed;
+
+    -webkit-user-select: none;  /* Chrome all / Safari all */
+  -moz-user-select: none;     /* Firefox all */
+  -ms-user-select: none;      /* IE 10+ */
+
 }
 
 .content{
@@ -27,9 +78,13 @@
     margin-left:auto;
     margin-right:auto;
     text-align:center;
+}   
+
+body {
+    background-color: black;
 }
 
 p{
-    margin-top: 0px;
-    margin-bottom: 5px;
+        color : var(--foreground);
+
 }

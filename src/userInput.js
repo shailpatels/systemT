@@ -1,12 +1,49 @@
 
+
+
+/**
+* There should only ever be only 1 input object
+* https://www.dofactory.com/javascript/singleton-design-pattern
+*/
+var InputFactory = (function(){
+    var instance = null;
+
+    function createInstance(data) {
+        return new Input(data);
+    }
+ 
+    return {
+        clear : function(){
+            instance = null;
+        },
+
+        getInstance: function (data = "") {
+            if (!instance) {
+                instance = createInstance(data);
+            }
+            return instance;
+        }
+    };
+})();
+
+
 class Input{
     constructor(data){
+    
+        let input = data.trim();
+        let words = input.split("\n");
+
+        words = words.filter( function(x){
+            return x !== "";
+        });
+
         this.lines = new Map();
+        this.labels = new Map();
         this.current_line = 0;
-        this.raw_input = main_input.value;
+        this.raw_input = data;
         
-        for ( var i = 0; i < data.length; i++ )
-            this.lines.set( i, data[i].split(" ") );
+        for ( var i = 0; i < words.length; i++ )
+            this.lines.set( i, words[i].split(" ") );
 
     }
 
@@ -19,6 +56,7 @@ class Input{
 
     length() { return this.lines.size; }
 
+
     getCurrentLine() {
         let test = this.current_line;
         if ( typeof this.lines.get( test ) === "undefined" )
@@ -28,11 +66,20 @@ class Input{
     }
 
 
-    reset(){
-        this.lines = new Map();
-        this.current_line = 0;
+    addLabel(value, line_number){
+        this.labels.set(value, line_number);
+    }
+
+
+    getLabel(tgt){
+        let tmp = this.labels.get(tgt);
+        if ( typeof tmp === "undefined" )
+            return this.current_line;
+
+        return tmp;
     }
 }
+
 
 function save(){
     if ( typeof IN === "undefined")
@@ -78,4 +125,12 @@ function load(){
     
     for ( t of tapes )
         updateTape( t );
+}
+
+
+if ( typeof module !== "undefined" ){
+    module.exports = {
+        Input,
+        InputFactory
+    };
 }
