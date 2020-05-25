@@ -5,13 +5,13 @@ var main_input, html_tape,
 
 
 window.onload = function(){
+    if ( !document.getElementById("canvas") )
+        return;
+
     html_tape = document.getElementById("tape");
-
-
     //initialize FSS
+    init();
     
-    console.log(init_size);
-
     for ( var i = 0; i < init_size; ++i ){
         let tmp = document.createElement("div");
         tmp.className= "cell";
