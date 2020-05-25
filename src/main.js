@@ -5,11 +5,13 @@ var main_input, html_tape,
 
 
 window.onload = function(){
-    main_input = document.getElementById("main_input"); 
     html_tape = document.getElementById("tape");
 
-    main_input.focus(); 
+
+    //initialize FSS
     
+    console.log(init_size);
+
     for ( var i = 0; i < init_size; ++i ){
         let tmp = document.createElement("div");
         tmp.className= "cell";
@@ -25,9 +27,9 @@ window.onload = function(){
     let tape = new Tape( init_size ); 
     tapes.push( tape );
 
-    main_input.onchange = function(){
-        InputFactory.clear();
-    }
+    // main_input.onchange = function(){
+    //     InputFactory.clear();
+    // }
     
     levels = new LoadLevels(); 
 }
