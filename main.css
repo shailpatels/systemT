@@ -3,6 +3,11 @@
     --foreground: white;
 }
 
+canvas{
+    margin: 0px !important;
+    pointer-events : auto;
+}
+
 
 #tape{
     display : grid;
@@ -68,9 +73,8 @@
     border-style: dashed dashed dashed dashed;
 
     -webkit-user-select: none;  /* Chrome all / Safari all */
-  -moz-user-select: none;     /* Firefox all */
-  -ms-user-select: none;      /* IE 10+ */
-
+    -moz-user-select: none;     /* Firefox all */
+    -ms-user-select: none;      /* IE 10+ */
 }
 
 .content{
@@ -80,11 +84,12 @@
     text-align:center;
 }   
 
+
 body {
     background-color: black;
 }
 
-p{
-        color : var(--foreground);
 
+p{
+    color : var(--foreground);
 }

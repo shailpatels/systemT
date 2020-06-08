@@ -5,10 +5,12 @@ var main_input, html_tape,
 
 
 window.onload = function(){
-    main_input = document.getElementById("main_input"); 
-    html_tape = document.getElementById("tape");
+    if ( !document.getElementById("canvas") )
+        return;
 
-    main_input.focus(); 
+    html_tape = document.getElementById("tape");
+    //initialize FSS
+    init();
     
     for ( var i = 0; i < init_size; ++i ){
         let tmp = document.createElement("div");
@@ -25,9 +27,9 @@ window.onload = function(){
     let tape = new Tape( init_size ); 
     tapes.push( tape );
 
-    main_input.onchange = function(){
-        InputFactory.clear();
-    }
+    // main_input.onchange = function(){
+    //     InputFactory.clear();
+    // }
     
     levels = new LoadLevels(); 
 }
