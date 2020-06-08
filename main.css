@@ -3,6 +3,11 @@
     --foreground: white;
 }
 
+canvas{
+    margin: 0px !important;
+    pointer-events : auto;
+}
+
 
 #tape{
     display : grid;

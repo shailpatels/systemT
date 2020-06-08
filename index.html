@@ -17,6 +17,7 @@
     <script src="src/FSS/src/lib/geometry.js"></script>
     <script src="src/FSS/src/elements.js"></script>
     <script src="src/FSS/src/simulate.js"></script>
+    <script src="src/FSS/src/api.js"></script>
 
     <link rel=  "stylesheet" type="text/css" href="main.css" >
     <link rel=  "stylesheet" type="text/css" href="src/FSS/main.css" >
@@ -55,8 +56,12 @@
     </div>
 
     <p id="line"></p> -->
+
 </div>
 
+<div class="content">
+    <button onclick="step()">Step</button>
+</div>
 
 <!-- menu for new arrows -->
 <div id="arrow_menu" class="arrow_menu">
@@ -64,13 +69,15 @@
     <input id="out" type="text" name="">
 </div>
 
-<div id="saves">
+<div id="saves" style="display: none;">
     <span id="save0">
         <button onclick="save()">Save</button>
         <button onclick="load()" id="loadbtn">Load</button>
         <button onclick="resetSim()" id="resetbtn">Reset</button>
     </span>
 </div>
+
+
 
 </body>
 
