@@ -1,18 +1,34 @@
+import {Tape} from './tape.js';
+import {updateTape} from './renderer.js';
+import {LoadLevels} from './levelLoader.js';
+
+import {API} from './FSS/src/api.js';
+
 var main_input, html_tape,
     tapes = [],
     init_size = 19,
     levels;
 
+/**
+* @returns {String} current symbol on tape
+*/
+const requestInput = () => {
+    let mrk = tapes[0].read();
+    return mrk;
+};
 
-window.onload = function(){
-    if ( !document.getElementById("canvas") )
-        return;
+const simulateWrite = (output) => {
+    tapes[0].write(output);
+    updateTape(tapes[0]);
+}
+
+
+window.onload = start();
+function start() {
 
     html_tape = document.getElementById("tape");
-    //initialize FSS
-    init();
     
-    for ( var i = 0; i < init_size; ++i ){
+    for ( let i = 0; i < init_size; ++i ){
         let tmp = document.createElement("div");
         tmp.className= "cell";
 
@@ -25,6 +41,8 @@ window.onload = function(){
     }
 
     let tape = new Tape( init_size ); 
+    tape.setAll("0");
+    updateTape(tape);
     tapes.push( tape );
 
     // main_input.onchange = function(){
@@ -32,6 +50,9 @@ window.onload = function(){
     // }
     
     levels = new LoadLevels(); 
+    API.addFunc("request_input", requestInput);
+    API.addFunc("simulate_write", simulateWrite);
+
 }
 
 

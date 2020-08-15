@@ -12,3 +12,9 @@ function updateTape(t){
         document.getElementById("cell_" + i).innerText = t.readAt( tgt );
     }
 }
+
+
+export{
+	updateTape,
+	updateCurrentCell
+}

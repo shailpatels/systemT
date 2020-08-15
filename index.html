@@ -3,21 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <title>systemT</title>
-    <script src="src/main.js"></script>
-    <script src="src/tape.js"></script>
-    <script src="src/renderer.js"></script>
-    <script src="src/userInput.js"></script>
-    <script src="src/levelLoader.js"></script>
+    <script type="module" src="src/main.js"></script>
+    <script type="module" src="src/tape.js"></script>
+    <script type="module" src="src/renderer.js"></script>
+    <script type="module" src="src/userInput.js"></script>
+    <script type="module" src="src/levelLoader.js"></script>
 
     <!-- FSS -->
-    <script src="src/FSS/src/canvas.js"></script>
-    <script src="src/FSS/src/renderer.js"></script>
-    <script src="src/FSS/src/lib/graph.js"></script>
-    <script src="src/FSS/src/input.js"></script>
-    <script src="src/FSS/src/lib/geometry.js"></script>
-    <script src="src/FSS/src/elements.js"></script>
-    <script src="src/FSS/src/simulate.js"></script>
-    <script src="src/FSS/src/api.js"></script>
+    <script type="module" src="src/FSS/src/canvas.js"></script>
+    <script type="module" src="src/FSS/src/renderer.js"></script>
+    <script type="module" src="src/FSS/src/lib/graph.js"></script>
+    <script type="module" src="src/FSS/src/input.js"></script>
+    <script type="module" src="src/FSS/src/lib/geometry.js"></script>
+    <script type="module" src="src/FSS/src/elements.js"></script>
+    <script type="module" src="src/FSS/src/simulate.js"></script>
+    <script type="module" src="src/FSS/src/api.js"></script>
 
     <link rel=  "stylesheet" type="text/css" href="main.css" >
     <link rel=  "stylesheet" type="text/css" href="src/FSS/main.css" >
@@ -60,13 +60,16 @@
 </div>
 
 <div class="content">
-    <button onclick="step()">Step</button>
+    <button id="stp_btn">Step</button>
+    <button id="submit_btn" style="display: none;"></button>
 </div>
 
 <!-- menu for new arrows -->
 <div id="arrow_menu" class="arrow_menu">
     <input id="if_" type="text" name="">
     <input id="out" type="text" name="">
+    L<input id="dir" type="radio" name="dir">
+    R<input id="dir" type="radio" name="dir">
 </div>
 
 <div id="saves" style="display: none;">

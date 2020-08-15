@@ -80,6 +80,8 @@ class Tape{
     } 
 }
 
-if (typeof module !== 'undefined' )
-    module.exports = {Tape};
+
+export {
+    Tape
+}
 
