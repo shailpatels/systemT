@@ -1,6 +1,5 @@
-const _L = require('../src/levelLoader');
-
+import {LoadLevels} from '../src/levelLoader.js';
 
 test('basic', () => {
-	let l = new _L.LoadLevels();
+	let l = new LoadLevels();
 });

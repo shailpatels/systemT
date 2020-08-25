@@ -10,7 +10,9 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "jest": "^25.5.4"
+    "esm": "^3.2.25",
+    "jest": "^25.5.4",
+    "jest-esm-transformer": "^1.0.0"
   },
   "scripts": {
     "test": "jest"
