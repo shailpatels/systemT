@@ -1,16 +1,10 @@
-
-
+import {step} from './main.js';
 
 /**
 * There should only ever be only 1 input object
-* https://www.dofactory.com/javascript/singleton-design-pattern
 */
 var InputFactory = (function(){
     var instance = null;
-
-    function createInstance(data) {
-        return new Input(data);
-    }
  
     return {
         clear : function(){
@@ -19,7 +13,7 @@ var InputFactory = (function(){
 
         getInstance: function (data = "") {
             if (!instance) {
-                instance = createInstance(data);
+                instance = new Input(data);
             }
             return instance;
         }
@@ -42,8 +36,11 @@ class Input{
         this.current_line = 0;
         this.raw_input = data;
         
-        for ( var i = 0; i < words.length; i++ )
+        for ( let i = 0; i < words.length; i++ ){
             this.lines.set( i, words[i].split(" ") );
+        }
+
+        document.getElementById("step_btn").addEventListener("click", step);
 
     }
 
@@ -127,10 +124,7 @@ function load(){
         updateTape( t );
 }
 
-
-if ( typeof module !== "undefined" ){
-    module.exports = {
-        Input,
-        InputFactory
-    };
+export{
+    InputFactory
 }
+

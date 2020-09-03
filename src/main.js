@@ -1,8 +1,11 @@
 import {Tape} from './tape.js';
 import {updateTape} from './renderer.js';
-import {LoadLevels} from './levelLoader.js';
+import {LevelLoader} from './levelLoader.js';
+import {InputFactory} from './userInput.js';
 
 import {API} from './FSS/src/api.js';
+import {step as stepFSS} from './FSS/src/simulate.js';
+import {toggleDarkMode} from './FSS/src/renderer.js';
 
 var main_input, html_tape,
     tapes = [],
@@ -23,7 +26,8 @@ const simulateWrite = (output) => {
 }
 
 
-window.onload = start();
+API.is_external = true;
+window.addEventListener("load", start);
 function start() {
 
     html_tape = document.getElementById("tape");
@@ -44,12 +48,10 @@ function start() {
     tape.setAll("0");
     updateTape(tape);
     tapes.push( tape );
-
-    // main_input.onchange = function(){
-    //     InputFactory.clear();
-    // }
     
-    levels = new LoadLevels(); 
+    levels = new LevelLoader(); 
+    InputFactory.getInstance();
+
     API.addFunc("request_input", requestInput);
     API.addFunc("simulate_write", simulateWrite);
 
@@ -66,8 +68,9 @@ function updateLine(n){
 
 
 function step(){
-    let IN = InputFactory.getInstance();
-    parseNext(IN, tapes[0] );
+    console.log("!");
+    API.addFunc("request_input", () => {return "A"});
+    stepFSS();
 }
 
 
@@ -94,12 +97,8 @@ function showWinState(){
 }
 
 
-/** setup for testing */
-if (typeof module !== "undefined"){
-    module.exports = {
-        parseNext, 
-        getRelativeCell,
-    }
-
-    updateTape = function(t){}
+export {
+    tapes,
+    step
 }
+

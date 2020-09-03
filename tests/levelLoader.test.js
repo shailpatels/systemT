@@ -1,5 +1,12 @@
-import {LoadLevels} from '../src/levelLoader.js';
+import {LevelLoader} from '../src/levelLoader.js';
 
-test('basic', () => {
-	let l = new LoadLevels();
+
+var levels;
+beforeEach(() => {
+   levels = new LevelLoader();
+});
+
+
+test('load level 1', () => {
+    levels.loadLevel(1); 
 });

@@ -1,3 +1,5 @@
+import {tapes} from './main.js';
+import {level0} from '../levels/1.js';
 
 var level_data = {
     0 : { "string" : "", "type" : "all", "win" : "Hello" },
@@ -9,12 +11,16 @@ var level_data = {
 
 var level_count = Object.keys(level_data).length;
 
-class LoadLevels{
+class LevelLoader{
     constructor(){
         this.drawLevels();
         this.current_level = 0;
         this.random_levels = [];
         this.win_string = "";
+
+        // fetch("../levels/1.json")
+        //     .then(response => response.json() )
+        //     .then(data => console.log(data));
     }
 
     drawLevels(){
@@ -32,7 +38,11 @@ class LoadLevels{
     }
 
 
-    loadLev(lev){
+    /** 
+    * load a level from JSON data
+    * @param {Number} lev the index of the data source to load
+    */
+    loadLevel(lev){
         this.current_level = lev;
         this.rand_nums = [];
         let tgt = level_data[lev];
@@ -106,6 +116,6 @@ function generateRandomLevel(baseString, winString){
 
 
 export{
-    LoadLevels
+    LevelLoader
 }
 
