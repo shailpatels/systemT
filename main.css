@@ -8,6 +8,33 @@ canvas{
     pointer-events : auto;
 }
 
+body {
+    background-color: black;
+}
+
+p{
+    color : var(--foreground);
+}
+
+.cell{
+    height : 50px;
+
+    border-color: var(--foreground);
+    font: 1rem Inconsolata, monospace;
+    overflow: hidden;
+    text-shadow: 0 0 5px #C8C8C8;
+
+    border-style: dashed dashed dashed dashed;
+
+    -webkit-user-select: none;  /* Chrome all / Safari all */
+    -moz-user-select: none;     /* Firefox all */
+    -ms-user-select: none;      /* IE 10+ */
+} 
+
+.center{
+    display: flex;
+    justify-content: center;
+}
 
 #tape{
     display : grid;
@@ -23,7 +50,8 @@ canvas{
     color: var(--foreground);
 
     justify-content: center;
-    align-items: center; 
+    align-items: center;
+    text-align: center; 
 
     background: linear-gradient(
         to bottom,
@@ -62,34 +90,3 @@ canvas{
 }
 
 
-.cell{
-    height : 50px;
-
-    border-color: var(--foreground);
-    font: 1rem Inconsolata, monospace;
-    overflow: hidden;
-    text-shadow: 0 0 5px #C8C8C8;
-
-    border-style: dashed dashed dashed dashed;
-
-    -webkit-user-select: none;  /* Chrome all / Safari all */
-    -moz-user-select: none;     /* Firefox all */
-    -ms-user-select: none;      /* IE 10+ */
-}
-
-.content{
-    max-width 500px;
-    margin-left:auto;
-    margin-right:auto;
-    text-align:center;
-}   
-
-
-body {
-    background-color: black;
-}
-
-
-p{
-    color : var(--foreground);
-}

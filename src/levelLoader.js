@@ -1,5 +1,6 @@
-import {tapes} from './main.js';
 import {level0} from '../levels/1.js';
+import {Tape} from '../src/tape.js';
+import {stateManager} from './stateManager.js';
 
 var level_data = {
     0 : { "string" : "", "type" : "all", "win" : "Hello" },
@@ -17,19 +18,16 @@ class LevelLoader{
         this.current_level = 0;
         this.random_levels = [];
         this.win_string = "";
-
-        // fetch("../levels/1.json")
-        //     .then(response => response.json() )
-        //     .then(data => console.log(data));
     }
 
     drawLevels(){
         let tgt = document.getElementById("levels");
 
-        if ( !tgt )
+        if ( !tgt ){
             return;
+        }
 
-        for(var i = 0; i < level_count; i++){
+        for(let i = 0; i < level_count; i++){
             let btn = document.createElement( "button" );
             btn.innerHTML = "Level " + String(i)
             btn.setAttribute("onclick", "levels.loadLev(" + i + ");");
@@ -43,24 +41,27 @@ class LevelLoader{
     * @param {Number} lev the index of the data source to load
     */
     loadLevel(lev){
+        let SM = stateManager.getInstance();
+
         this.current_level = lev;
         this.rand_nums = [];
         let tgt = level_data[lev];
-        tapes[0] = new Tape(tapes[0].size);
+        SM.tapes[0] = new Tape( SM.tapes[0].size );
+
         if ( tgt["type"]  === "all" ){
-            tapes[0].setAll( tgt["string"] ); 
-            updateTape( tapes[0] );
+            SM.tapes[0].setAll( tgt["string"] ); 
+            updateTape( SM.tapes[0] );
             this.win_string = tgt["win"];
         }
 
         if ( tgt["type"] === "pattern" ){
-            tapes[0].setAll( tgt["background"] );
+            SM.tapes[0].setAll( tgt["background"] );
 
             let data = generateRandomLevel( tgt["string"] , tgt["win"] );
             this.win_string = data[1]; 
 
-            tapes[0].setAt( 0, data[0] );
-            updateTape( tapes[0] );
+            SM.tapes[0].setAt( 0, data[0] );
+            updateTape( SM.tapes[0] );
         }
     }
 
@@ -74,8 +75,9 @@ class LevelLoader{
         let tgt = this.win_string;
         let player_str = "";
         
-        for ( var i = tapes[0].min; i <= tapes[0].max; i++ )
-            player_str += tapes[0].readAt( i );    
+        for ( let i = SM.tapes[0].min; i <= SM.tapes[0].max; i++ ){
+            player_str += SM.tapes[0].readAt( i );    
+        }
 
         player_str = player_str.trim()
         console.log( player_str, this.win_string );

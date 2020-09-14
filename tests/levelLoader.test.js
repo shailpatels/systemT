@@ -1,9 +1,10 @@
 import {LevelLoader} from '../src/levelLoader.js';
-
+import {stateManager} from '../src/stateManager.js';
 
 var levels;
 beforeEach(() => {
    levels = new LevelLoader();
+   stateManager.init();
 });
 
 

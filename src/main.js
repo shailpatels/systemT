@@ -1,29 +1,19 @@
 import {Tape} from './tape.js';
 import {updateTape} from './renderer.js';
 import {LevelLoader} from './levelLoader.js';
-import {InputFactory} from './userInput.js';
+import {
+    InputFactory, 
+    updateArrowMoveDirection,
+    updateArrowMenuDirection
+} from './userInput.js';
+import {stateManager} from './stateManager.js';
 
 import {API} from './FSS/src/api.js';
 import {step as stepFSS} from './FSS/src/simulate.js';
 import {toggleDarkMode} from './FSS/src/renderer.js';
 
 var main_input, html_tape,
-    tapes = [],
-    init_size = 19,
     levels;
-
-/**
-* @returns {String} current symbol on tape
-*/
-const requestInput = () => {
-    let mrk = tapes[0].read();
-    return mrk;
-};
-
-const simulateWrite = (output) => {
-    tapes[0].write(output);
-    updateTape(tapes[0]);
-}
 
 
 API.is_external = true;
@@ -31,8 +21,9 @@ window.addEventListener("load", start);
 function start() {
 
     html_tape = document.getElementById("tape");
+    const SM = stateManager.getInstance();
     
-    for ( let i = 0; i < init_size; ++i ){
+    for ( let i = 0; i < SM.init_size; ++i ){
         let tmp = document.createElement("div");
         tmp.className= "cell";
 
@@ -43,17 +34,32 @@ function start() {
 
         html_tape.appendChild ( tmp );
     }
-
-    let tape = new Tape( init_size ); 
-    tape.setAll("0");
-    updateTape(tape);
-    tapes.push( tape );
     
+    SM.loadTape();
     levels = new LevelLoader(); 
     InputFactory.getInstance();
 
+
+    /**
+    * @returns {String} current symbol on tape
+    */
+    const requestInput = () => {
+        return SM.tapes[0].read();
+    };
+
+    const simulateWrite = (output) => {
+        if(output === ""){
+            return;
+        }
+        SM.tapes[0].write(output);
+        updateTape(SM.tapes[0]);
+    }
+
     API.addFunc("request_input", requestInput);
     API.addFunc("simulate_write", simulateWrite);
+    API.addFunc("update_selected_arrow", updateArrowMoveDirection);
+    API.addFunc("update_arrow_menu", updateArrowMenuDirection)
+    toggleDarkMode();
 
 }
 
@@ -68,8 +74,6 @@ function updateLine(n){
 
 
 function step(){
-    console.log("!");
-    API.addFunc("request_input", () => {return "A"});
     stepFSS();
 }
 
@@ -98,7 +102,6 @@ function showWinState(){
 
 
 export {
-    tapes,
     step
 }
 

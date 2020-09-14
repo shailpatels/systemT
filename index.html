@@ -3,11 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <title>systemT</title>
+    <!-- Local files -->
     <script type="module" src="src/main.js"></script>
     <script type="module" src="src/tape.js"></script>
     <script type="module" src="src/renderer.js"></script>
     <script type="module" src="src/userInput.js"></script>
     <script type="module" src="src/levelLoader.js"></script>
+    <script type="module" src="src/stateManager.js"></script>
 
     <!-- FSS -->
     <script type="module" src="src/FSS/src/canvas.js"></script>
@@ -18,21 +20,27 @@
     <script type="module" src="src/FSS/src/elements.js"></script>
     <script type="module" src="src/FSS/src/simulate.js"></script>
     <script type="module" src="src/FSS/src/api.js"></script>
+    <script type="module" src="src/FSS/src/canvasManager.js"></script>
 
+    <!-- CSS -->
     <link rel=  "stylesheet" type="text/css" href="main.css" >
     <link rel=  "stylesheet" type="text/css" href="src/FSS/main.css" >
 </head>
 
 <body>
-<div class = "content">
+<div>
     <div id = "tape">
     </div>
 
-    <p id="cursor" style="font-size: 30px;">&#9650;</p>
+    <div class="center">
+        <p id="cursor" style="font-size: 30px;">&#9650;</p>
+    </div>
 
-    <canvas id="canvas">
-        Your browser does not support HTML5 canvas
-    </canvas>
+    <div class="content">
+        <canvas id="canvas">
+            Your browser does not support HTML5 canvas
+        </canvas>
+    </div>
 
    <!--  <div id="overlay" style="display: block">
         <textarea spellcheck = false
@@ -68,8 +76,8 @@
 <div id="arrow_menu" class="arrow_menu">
     <input id="if_" type="text" name="">
     <input id="out" type="text" name="">
-    L<input id="dir" type="radio" name="dir">
-    R<input id="dir" type="radio" name="dir">
+    L<input id="dir-left" type="radio" name="dir">
+    R<input id="dir-right" type="radio" name="dir">
 </div>
 
 <div id="saves" style="display: none;">

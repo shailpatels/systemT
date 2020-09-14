@@ -1,4 +1,5 @@
 import {step} from './main.js';
+import {canvasManager} from './FSS/src/canvasManager.js';
 
 /**
 * There should only ever be only 1 input object
@@ -124,7 +125,47 @@ function load(){
         updateTape( t );
 }
 
+/**
+* Update the currently selected arrow with what direction the arrow menu has picked
+*/
+function updateArrowMoveDirection(){
+    let tgts = document.getElementsByName('dir');
+    let is_left = true;
+    for( let tgt of tgts ){
+        if(tgt.checked){
+            is_left = tgt.id === "dir-left";
+            break;
+        }
+    }
+    let CM = canvasManager.getInstance();
+    if(!CM.selected_arrow){
+        return;
+    }
+
+    CM.selected_arrow.move_direction = is_left ? "left" : "right";
+}
+
+
+/**
+* Load the move direction of the selected arrow and update the arrow menu with it
+*/
+function updateArrowMenuDirection(){
+    let CM = canvasManager.getInstance();
+    if(!CM.selected_arrow){
+        return;
+    }
+
+    if(typeof CM.selected_arrow.move_direction === "undefined"){
+        return;
+    }
+    console.log(CM.selected_arrow);
+    let tgt = "dir-" + CM.selected_arrow.move_direction;
+    document.getElementById(tgt).checked = true;
+}
+
 export{
-    InputFactory
+    InputFactory,
+    updateArrowMoveDirection,
+    updateArrowMenuDirection
 }
 
