@@ -158,6 +158,7 @@ function updateArrowMenuDirection(){
     if(typeof CM.selected_arrow.move_direction === "undefined"){
         return;
     }
+
     console.log(CM.selected_arrow);
     let tgt = "dir-" + CM.selected_arrow.move_direction;
     document.getElementById(tgt).checked = true;

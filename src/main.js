@@ -20,6 +20,7 @@ API.is_external = true;
 window.addEventListener("load", start);
 function start() {
 
+    document.getElementById("canvas").oncontextmenu = (e) => { e.preventDefault(); }
     html_tape = document.getElementById("tape");
     const SM = stateManager.getInstance();
     
