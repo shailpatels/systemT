@@ -90,3 +90,9 @@ p{
 }
 
 
+#levels{
+    position: fixed;
+    top:100px;
+    left: 40%;
+    border: solid 2px;
+}

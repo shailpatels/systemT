@@ -1,5 +1,6 @@
 import {step} from './main.js';
 import {canvasManager} from './FSS/src/canvasManager.js';
+import {save as saveFSS} from './FSS/src/lib/graph.js';
 
 /**
 * There should only ever be only 1 input object
@@ -42,7 +43,12 @@ class Input{
         }
 
         document.getElementById("step_btn").addEventListener("click", step);
-
+        document.getElementById("toggle-levels").addEventListener("click", toggleLevelsMenu);
+        document.getElementById("levels-btn").addEventListener("click", toggleLevelsMenu);
+        document.getElementById("save-game").addEventListener("click", ()=>{
+            //add logic for saving system t here
+            saveFSS();
+        })
     }
 
 
@@ -76,6 +82,12 @@ class Input{
 
         return tmp;
     }
+}
+
+
+function toggleLevelsMenu(){
+    let tgt = document.getElementById("levels");
+    tgt.style.display = tgt.style.display === "none" ? "block" : "none";
 }
 
 
