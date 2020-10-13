@@ -48,18 +48,42 @@ function start() {
         return SM.tapes[0].read();
     };
 
+    let move_q = [];
+
     const simulateWrite = (output) => {
         if(output === ""){
             return;
         }
         SM.tapes[0].write(output);
+
+        for(let x of move_q){
+            if(x === "left"){
+                SM.tapes[0].moveLeft();
+            }else if(x === "right"){
+                SM.tapes[0].moveRight();
+            }
+        }
+
+        move_q = [];
+
         updateTape(SM.tapes[0]);
     }
 
     API.addFunc("request_input", requestInput);
     API.addFunc("simulate_write", simulateWrite);
     API.addFunc("update_selected_arrow", updateArrowMoveDirection);
-    API.addFunc("update_arrow_menu", updateArrowMenuDirection)
+    API.addFunc("update_arrow_menu", updateArrowMenuDirection);
+    API.addFunc("arrow_accepted", (data) => {
+        console.log(data);
+        console.log(data["move_direction"] === "left");
+       if(typeof data["move_direction"] !== undefined){
+
+           move_q.push(data["move_direction"]);
+
+           
+       } 
+    });
+
     toggleDarkMode();
 
 }
@@ -103,6 +127,7 @@ function showWinState(){
 
 
 export {
-    step
+    step,
+    getRandom
 }
 

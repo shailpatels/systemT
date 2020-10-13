@@ -1,23 +1,17 @@
-import {level0} from '../levels/1.js';
+import {level_descriptor} from '../levels/levels.js';
 import {Tape} from '../src/tape.js';
 import {stateManager} from './stateManager.js';
+import {updateTape} from './renderer.js';
+import {getRandom} from './main.js';
 
-var level_data = {
-    0 : { "string" : "", "type" : "all", "win" : "Hello" },
-    1 : { "string" : "1", "type" : "all", "win" : "0" },
-    2 : { "string" : "11101", "type" : "pattern", "win" : "111", "background" : "0"},
-    3 : { "string" : "1*01*", "type" : "pattern", "win" : "1*1*", "background" : "0" }
-};
-
-
-var level_count = Object.keys(level_data).length;
 
 class LevelLoader{
     constructor(){
-        this.drawLevels();
         this.current_level = 0;
         this.random_levels = [];
         this.win_string = "";
+        this.level_count = Object.keys(level_descriptor).length;
+        this.drawLevels();
     }
 
     drawLevels(){
@@ -27,10 +21,10 @@ class LevelLoader{
             return;
         }
 
-        for(let i = 0; i < level_count; i++){
+        for(let i = 0; i < this.level_count; i++){
             let btn = document.createElement( "button" );
-            btn.innerHTML = "Level " + String(i)
-            btn.setAttribute("onclick", "levels.loadLev(" + i + ");");
+            btn.innerHTML = "Level " + String(i);
+            btn.addEventListener('click', () => {this.loadLevel(i)} );
             tgt.appendChild( btn );
         }
     }
@@ -45,24 +39,26 @@ class LevelLoader{
 
         this.current_level = lev;
         this.rand_nums = [];
-        let tgt = level_data[lev];
+        let tgt = level_descriptor[lev.toString()];
         SM.tapes[0] = new Tape( SM.tapes[0].size );
 
-        if ( tgt["type"]  === "all" ){
-            SM.tapes[0].setAll( tgt["string"] ); 
-            updateTape( SM.tapes[0] );
-            this.win_string = tgt["win"];
+        for(let key in tgt){
+            if(key === "background"){
+                SM.tapes[0].setAll(tgt[key]);
+            }
+            if(key === "win"){
+                this.win_string = tgt[key];
+            }
+            if(key === "string"){
+                let data = tgt[key];
+                if(data["type"] === "pattern"){
+                    SM.tapes[0].setAt(
+                        0,generateRandomString(data["initial"], data["alphabet"]));
+                }
+            }
         }
 
-        if ( tgt["type"] === "pattern" ){
-            SM.tapes[0].setAll( tgt["background"] );
-
-            let data = generateRandomLevel( tgt["string"] , tgt["win"] );
-            this.win_string = data[1]; 
-
-            SM.tapes[0].setAt( 0, data[0] );
-            updateTape( SM.tapes[0] );
-        }
+        updateTape(SM.tapes[0]);
     }
 
 
@@ -86,36 +82,24 @@ class LevelLoader{
 }
 
 
-function generateRandomLevel(baseString, winString){
-    let fin = "";
-    let win = "";
-    let rands = [];
-    for ( var i = 1; i < baseString.length; i++){
-        let rand = getRandom(10);
-        if ( baseString[i] == "*" ){
-            rands.push( rand );
-
-            fin += baseString[i-1].repeat( rand );
-        }else if( i + 1 < baseString.length && baseString[i+1] != "*" ){
-            fin += baseString[i];
-        }else if( i == baseString.length - 1 ){
-            fin += baseString[i];
+function generateRandomString(baseString, alphabet){
+    let ret = "";
+    let randoms = [];
+    let index = 0;
+    for(let x of baseString){
+        if(x != "*"){
+            ret += x;
+        }else{
+            let r = alphabet[Math.floor(Math.random() * alphabet.length)];
+            ret += r;
+            randoms.push({index : r});
         }
+
+        index ++;
     }
 
-    let rand_index = 0;
-    for ( var i = 1; i < winString.length; i++){
-        if ( winString[i] == "*" ){
-            win += winString[i-1].repeat( rands[rand_index] ); 
-            rand_index ++;
-        }else if(i + 1 < winString.length && winString[i+1] != "*"){
-            win += winString[i];
-        }
-    }
-
-    return [ fin, win, rands ];
+    return ret 
 }
-
 
 export{
     LevelLoader

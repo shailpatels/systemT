@@ -66,18 +66,18 @@ class Tape{
         return tmp;
     }
     
-
+    //TODO: let tapes know the background and set it dynamically when we go out of bounds
     setAll( val ){
         for ( var i = -100; i < 100; i++ )
             this.mem.set( i, val );
     
     }
 
-
     setAt( index, string ){
         for ( var i = 0; i < string.length; i++ )
             this.mem.set( index + i, string[i] );
     } 
+
 }
 
 
